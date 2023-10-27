@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: HMITools
- * File: HMIFileBrowse.st
- * Author: Josh
- * Created: November 08, 2012
- ********************************************************************
+(*
+ * File: HMI_File_Browse.st
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of library HMITools
  ********************************************************************) 
 

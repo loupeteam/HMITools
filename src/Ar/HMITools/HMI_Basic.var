@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: HMITypLib
- * File: HMITypLib.var
- * Author: David
- * Created: March 10, 2011
- ********************************************************************
+(*
+ * File: HMI_Basic.var
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Constants of library HMITypLib
  ********************************************************************)
 (*Constants*)

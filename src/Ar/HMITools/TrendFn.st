@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT -- Automation Resources Group
- ********************************************************************
- * Library: HMITools
+(*
  * File: TrendFn.st
- * Author: David
- * Created: October 26, 2010
- ********************************************************************
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of library HMITools
  ********************************************************************) 
 

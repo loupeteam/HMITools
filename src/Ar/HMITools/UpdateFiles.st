@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Program: RecipeUpdater
+(*
  * File: UpdateFiles.st
- * Author: Josh
- * Created: June 17, 2015
- ********************************************************************
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of program RecipeUpdater
  ********************************************************************) 
 

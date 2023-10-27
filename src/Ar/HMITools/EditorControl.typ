@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Program: EditorControl
+(*
  * File: EditorControl.typ
- * Author: Josh
- * Created: November 13, 2012
- ********************************************************************
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Local data types of program EditorControl
  ********************************************************************)
 (*Application Editor*)

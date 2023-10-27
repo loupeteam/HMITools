@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT -- Automation Resources Group
- ********************************************************************
- * Program: FileManager
- * File: Directory.st
- * Author: Josh
- * Created: April 01, 2012
- ********************************************************************
+(*
+ * File: DirectoryFub.st
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of program FileManager
  ********************************************************************) 
 

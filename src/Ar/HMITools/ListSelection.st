@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT -- Automation Resources Group
- ********************************************************************
- * Program: FileManager
- * File: FileSelection.st
- * Author: Josh
- * Created: April 02, 2012
- ********************************************************************
+(*
+ * File: ListSelection.st
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of program FileManager
  ********************************************************************) 
 

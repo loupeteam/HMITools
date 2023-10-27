@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: HMITools
- * File: ControlTouch.st
- * Author: Josh
- * Created: November 09, 2012
- ********************************************************************
+(*
+ * File: CustomControl.st
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of library HMITools
  ********************************************************************) 
 

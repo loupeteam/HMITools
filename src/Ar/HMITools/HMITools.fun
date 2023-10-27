@@ -1,11 +1,11 @@
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: HMITools
+(*
  * File: HMITools.fun
- * Author: Josh
- * Created: November 07, 2012
- ********************************************************************
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Functions and function blocks of library HMITools
  ********************************************************************)
 (*

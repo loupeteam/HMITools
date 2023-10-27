@@ -1,12 +1,12 @@
 
-(********************************************************************
- * COPYRIGHT --  
- ********************************************************************
- * Library: HMITools
+(*
  * File: RecipeMgr.st
- * Author: ScismD
- * Created: November 07, 2013
- ********************************************************************
+ * Copyright (c) 2023 Loupe
+ * https://loupe.team
+ * 
+ * This file is part of HMITools, licensed under the MIT License.
+ * 
+  ********************************************************************
  * Implementation of library HMITools
  ********************************************************************) 
 
