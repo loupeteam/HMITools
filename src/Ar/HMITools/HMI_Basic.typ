@@ -1,13 +1,11 @@
 (*
- * File: HMI_Basic.typ
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Data types of library HMITypLib
- ********************************************************************)
+* File: HMI_Basic.typ
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*)
 
 TYPE
 	HMI_StatusBits_enum : 

@@ -1,13 +1,11 @@
 (*
- * File: LogView.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of program Alarm
- ********************************************************************) 
+* File: LogView.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
 (* TODO: Add your comment here *)
 FUNCTION LogView_init

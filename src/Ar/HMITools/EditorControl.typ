@@ -1,13 +1,11 @@
 (*
- * File: EditorControl.typ
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Local data types of program EditorControl
- ********************************************************************)
+* File: EditorControl.typ
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*)
 (*Application Editor*)
 
 TYPE

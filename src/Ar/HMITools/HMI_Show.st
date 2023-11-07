@@ -1,13 +1,11 @@
 (*
- * File: HMI_Show.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of library HMI_Basic
- ********************************************************************) 
+* File: HMI_Show.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
 
 (****************************************************************)

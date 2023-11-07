@@ -1,13 +1,11 @@
 (*
- * File: RecipeMgr.typ
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Data types of library HMITools
- ********************************************************************)
+* File: RecipeMgr.typ
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*)
 
 TYPE
 	RecMgr_HMI_typ : 	STRUCT 

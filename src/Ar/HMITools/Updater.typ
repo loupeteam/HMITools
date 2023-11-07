@@ -1,13 +1,11 @@
 (*
- * File: Updater.typ
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Local data types of program Recipe
- ********************************************************************)
+* File: Updater.typ
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*)
 
 TYPE
 	RecipeUpdater_Internal_typ : 	STRUCT 

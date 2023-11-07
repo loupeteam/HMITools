@@ -1,13 +1,11 @@
 (*
- * File: Editor_fn.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of library HMITools
- ********************************************************************) 
+* File: Editor_fn.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
 (* TODO: Add your comment here *)
 FUNCTION Editor_fn

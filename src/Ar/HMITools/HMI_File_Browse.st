@@ -1,13 +1,11 @@
 (*
- * File: HMI_File_Browse.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of library HMITools
- ********************************************************************) 
+* File: HMI_File_Browse.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
 FUNCTION_BLOCK HMIFileBrowse
 	// Error Checks

@@ -1,14 +1,12 @@
 
 (*
- * File: RecipeMgr.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of library HMITools
- ********************************************************************) 
+* File: RecipeMgr.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
  
 (* Manage copying recipes to and from a running system and the HMI *)

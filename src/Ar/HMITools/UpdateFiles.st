@@ -1,13 +1,11 @@
 (*
- * File: UpdateFiles.st
- * Copyright (c) 2023 Loupe
- * https://loupe.team
- * 
- * This file is part of HMITools, licensed under the MIT License.
- * 
-  ********************************************************************
- * Implementation of program RecipeUpdater
- ********************************************************************) 
+* File: UpdateFiles.st
+* Copyright (c) 2023 Loupe
+* https://loupe.team
+* 
+* This file is part of HMITools, licensed under the MIT License.
+* 
+*) 
 
 (* TODO: Add your comment here *)
 FUNCTION_BLOCK FileQueue
