@@ -4,7 +4,6 @@
   <Files>
     <File>HMITools.html</File>
     <File>HMITools.md</File>
-    <File>VersionHistory.txt</File>
     <File>Coffee_Machine.png</File>
     <File Description="Exported data types">HMITools.typ</File>
     <File Description="Exported constants">HMITools.var</File>
