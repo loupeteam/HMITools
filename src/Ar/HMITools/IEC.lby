@@ -39,7 +39,7 @@
     <Dependency ObjectName="FileIO" />
     <Dependency ObjectName="standard" />
     <Dependency ObjectName="RingBufLib" FromVersion="0.2.0" />
-    <Dependency ObjectName="AsArLog" />
+    <Dependency ObjectName="ArEventLog" />
     <Dependency ObjectName="LogThat" />
     <Dependency ObjectName="AsBrStr" />
     <Dependency ObjectName="StringExt" FromVersion="0.4.0" />
