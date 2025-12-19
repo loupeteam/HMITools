@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.5.4.123 SP?>
+<?AutomationStudio FileVersion="4.9"?>
 <Library Version="0.11.4" SubType="IEC" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Exported data types">HMITools.typ</File>
@@ -38,10 +38,10 @@
   <Dependencies>
     <Dependency ObjectName="FileIO" />
     <Dependency ObjectName="standard" />
-    <Dependency ObjectName="RingBufLib" FromVersion="0.02.0" />
+    <Dependency ObjectName="RingBufLib" FromVersion="0.2.0" />
     <Dependency ObjectName="AsArLog" />
     <Dependency ObjectName="LogThat" />
     <Dependency ObjectName="AsBrStr" />
-    <Dependency ObjectName="StringExt" FromVersion="0.04.0" />
+    <Dependency ObjectName="StringExt" FromVersion="0.4.0" />
   </Dependencies>
 </Library>
