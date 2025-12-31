@@ -261,8 +261,8 @@ Log Viewer
 FUNCTION LogViewerGetAlarmString : UDINT
 	VAR_INPUT
 		t : LogView_GetAlarm;
-		AlarmIndex : UDINT;
-		LoggerIdent : UDINT;
+		recordId: ArEventLogRecordIDType;
+		LoggerIdent : ArEventLogIdentType;
 	END_VAR
 	VAR_IN_OUT
 		OutputString : STRING[LIST_BOX_STRING_SIZE];

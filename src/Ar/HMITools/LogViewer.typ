@@ -75,17 +75,11 @@ TYPE
 		logLevel : UDINT; (*Log level*)
 		errornr : UDINT; (*Error number of the entry*)
 		taskName : ARRAY[0..35]OF USINT; (*Task name*)
-		errYear : UDINT; (*Year (date of error)*)
-		errMonth : UDINT; (*Month (date of error)*)
-		errDay : UDINT; (*Day (date of error)*)
-		errHour : UDINT; (*Hour (date of error)*)
-		errMinute : UDINT; (*Minute (date of error)*)
-		errSecond : UDINT; (*Second (date of error)*)
-		errMilliSec : UDINT; (*millisecond (date of error)*)
-		errMicroSec : UDINT; (*microsendond (date of error)*)
+		errTime : ArEventLogTimeStampType;
 	END_STRUCT;
 	LogView_GetAlarm : 	STRUCT 
-		ReadItem : AsArLogRead; (*AsARLog: AsArLogRead FUB*)
+		ReadItem : ArEventLogRead; (*ArEventLog: ArEventLogRead FUB*)
+		ReadAddData: ArEventLogReadAddData; (*For reading the message text*)
 		ReadData : asarlogREAD;
 		BinaryData : ARRAY[0..255]OF USINT;
 		ASCIIData : ARRAY[0..255]OF USINT;

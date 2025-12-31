@@ -222,7 +222,7 @@ FUNCTION LogView_cyclic
 END_FUNCTION
 
 
-FUNCTION LogViewerCreateString
+FUNCTION LogViewerCreateString //TODO: fix this function
 	
 	LogViewerCreateString:=0;
 	
@@ -307,19 +307,24 @@ FUNCTION LogViewerCreateString
 	
 END_FUNCTION
 	
-FUNCTION LogViewerGetAlarmString
+FUNCTION LogViewerGetAlarmString 
 
-	t.ReadItem.index:=AlarmIndex;
-	t.ReadItem.enable := 1;
+	t.ReadItem.Execute := 1;
 	t.ReadItem.ident := LoggerIdent;  (*Ident of AR logger user module from AsARLogGetInfo*)
-	t.ReadItem.arlogRead := ADR(t.ReadData);  (*header data for the log entry *)
-	t.ReadItem.memBin := ADR(t.BinaryData);  (*Buffer for binary log data*)
-	t.ReadItem.lenBin := SIZEOF(t.BinaryData);  (*Length if binary buffer*)
-	t.ReadItem.memAscii := ADR(t.ASCIIData);  (*Buffer for ASCII string*)
-	t.ReadItem.lenAscii :=  SIZEOF(t.ASCIIData);  (*Length if ASCII buffer*)
+	t.ReadItem.RecordID := recordId;
 	t.ReadItem;  (* Call the Functionblock*)
+
 	
-	IF t.ReadItem.status = 0 THEN  (*AsArLogRead successful or last log entry read. No additional (older) entry present.*)
+	IF t.ReadItem.Done AND t.ReadItem.StatusID = 0 THEN  (*ArEventLogRead successful or last log entry read. No additional (older) entry present.*)
+
+		IF t.ReadItem.AddDataFormat = arEVENTLOG_ADDFORMAT_TEXT THEN
+			t.ReadAddData.Execute := 1;
+			t.ReadAddData.ident := LoggerIdent;
+			t.ReadAddData.RecordID := recordId;
+			t.ReadAddData.AddData := ADR(t.ASCIIData);
+			t.ReadAddData.BytesToRead := SIZEOF(t.ASCIIData);
+			t.ReadAddData; (* Call the function block *)
+		END_IF
 		
 		LogViewerCreateString(t.ReadData,t.ASCIIData,OutputString);
 		LogViewerGetAlarmString:=0;
