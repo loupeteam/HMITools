@@ -271,7 +271,7 @@ END_FUNCTION
 
 FUNCTION LogViewerCreateString : BOOL (*Log Viewer helper function to create the log string*)
 	VAR_INPUT
-		ReadData : asarlogREAD;
+		ReadData : ArEventLogRead;
 		ASCIIData : ARRAY[0..255] OF USINT;
 	END_VAR
 	VAR_IN_OUT

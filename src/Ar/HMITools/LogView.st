@@ -227,64 +227,64 @@ FUNCTION LogViewerCreateString //TODO: fix this function
 	LogViewerCreateString:=0;
 	
 	iString:='';
-			
+
 	//Year
-	IF ReadData.errYear<10 THEN
+	IF ReadData.errTime.year<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF								
-	brsitoa(ReadData.errYear,ADR(iConvString));			
+	brsitoa(ReadData.errTime.year,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 	brsstrcat(ADR(iString),ADR('-'));			
 
 	//Month
-	IF ReadData.errMonth<10 THEN
+	IF ReadData.errTime.month<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	brsitoa(ReadData.errMonth,ADR(iConvString));
+	brsitoa(ReadData.errTime.month,ADR(iConvString));
 	brsstrcat(ADR(iString),ADR(iConvString));
 	brsstrcat(ADR(iString),ADR('-'));			
 
 	//Day
-	IF ReadData.errDay<10 THEN
+	IF ReadData.errTime.day<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	brsitoa(ReadData.errDay,ADR(iConvString));			
+	brsitoa(ReadData.errTime.day,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 
 	brsstrcat(ADR(iString),ADR(' '));	
 	
 	//Hour
-	IF ReadData.errHour<10 THEN
+	IF ReadData.errTime.hour<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	brsitoa(ReadData.errHour,ADR(iConvString));			
+	brsitoa(ReadData.errTime.hour,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 	brsstrcat(ADR(iString),ADR(':'));
 
 	//Minute
-	IF ReadData.errMinute<10 THEN
+	IF ReadData.errTime.minute<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	brsitoa(ReadData.errMinute,ADR(iConvString));			
+	brsitoa(ReadData.errTime.minute,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 	brsstrcat(ADR(iString),ADR(':'));
 	
 	//Second
-	IF ReadData.errSecond<10 THEN
+	IF ReadData.errTime.second<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	brsitoa(ReadData.errSecond,ADR(iConvString));			
+	brsitoa(ReadData.errTime.second,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 	brsstrcat(ADR(iString),ADR('.'));	
 
 	//Millisecond
-	IF ReadData.errMilliSec<100 THEN
+	IF ReadData.errTime.millisec<100 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF			
-	IF ReadData.errMilliSec<10 THEN
+	IF ReadData.errTime.millisec<10 THEN
 		brsstrcat(ADR(iString),ADR('0'));				
 	END_IF				
-	brsitoa(ReadData.errMilliSec,ADR(iConvString));			
+	brsitoa(ReadData.errTime.millisec,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 	
 	//Error number
@@ -292,15 +292,7 @@ FUNCTION LogViewerCreateString //TODO: fix this function
 	brsitoa(ReadData.errornr,ADR(iConvString));			
 	brsstrcat(ADR(iString),ADR(iConvString));
 
-	CASE ReadData.logLevel OF
-		arlogLEVEL_INFO:
-			brsstrcat(ADR(iString),ADR(' Info: '));
-		arlogLEVEL_FATAL:
-			brsstrcat(ADR(iString),ADR(' Error: '));
-		arlogLEVEL_WARNING:	
-			brsstrcat(ADR(iString),ADR(' Warning: '));
-	END_CASE
-			
+	brsstrcat(ADR(iString),ADR(' '));
 	brsstrcat(ADR(iString),ADR(ASCIIData));
 				
 	OutputString:= iString;	
@@ -316,6 +308,11 @@ FUNCTION LogViewerGetAlarmString
 
 	
 	IF t.ReadItem.Done AND t.ReadItem.StatusID = 0 THEN  (*ArEventLogRead successful or last log entry read. No additional (older) entry present.*)
+		
+		REPEAT (*This fub is async*)
+			t.convertUTC(TRUE, (DATE_AND_TIME)t.ReadItem.TimeStamp.sec, t.ReadData.errTime);
+		UNTIL t.convertUTC.status <> ERR_FUB_BUSY END_REPEAT;
+		// TODO: Do we need to handle if the conversion fails, or just allow a garbage time in the error display?
 
 		IF t.ReadItem.AddDataFormat = arEVENTLOG_ADDFORMAT_TEXT THEN
 			t.ReadAddData.Execute := 1;
