@@ -315,26 +315,26 @@ FUNCTION LogViewerGetAlarmString
 	IF t.ReadItem.Done AND t.ReadItem.StatusID = 0 THEN  (*ArEventLogRead successful or last log entry read. No additional (older) entry present.*)
 		t.convertUTC;
 		IF t.convertUTC.status = ERR_FUB_BUSY THEN // Busy
-			t.convertUTC.Execute := TRUE;
+			t.convertUTC.enable := TRUE;
 			LogViewerGetAlarmString:=ERR_FUB_BUSY;
 			RETURN;
-		ELSIF t.convertUTC.status = ERR_NOT_ENABLED THEN // Ready to start new conversion
-			t.convertUTC.Execute := TRUE;
-			t.convertUTC.DT1 := (DATE_AND_TIME)t.ReadItem.TimeStamp.sec;
-			t.convertUTC.pDTStructure := t.ReadData.errTime;
+		ELSIF t.convertUTC.status = ERR_FUB_ENABLE_FALSE THEN // Ready to start new conversion
+			t.convertUTC.enable := TRUE;
+			brsmemcpy(ADR(t.convertUTC.DT1), ADR(t.ReadItem.TimeStamp.sec), SIZEOF(t.ReadItem.TimeStamp.sec)); // DATE_AND_TIME is just a UDINT
+			t.convertUTC.pDTStructure := ADR(t.ReadData.errTime);
 			LogViewerGetAlarmString:=ERR_FUB_BUSY;
 			RETURN;
-		ELSIF t.convertUTC.status = TimeERR_INVALID_PARAMETER THEN
+		ELSIF t.convertUTC.status = timERR_INVALID_PARAMETER THEN
 			brsmemset(ADR(t.ReadData.errTime), 0, SIZEOF(t.ReadData.errTime)); // Indicates error reading time
-			t.convertUTC.Execute := FALSE;
+			t.convertUTC.enable := FALSE;
 		ELSE // Done
-			t.convertUTC.Execute := FALSE;
-			t.ReadData.errTime.millisec := t.ReadItem.TimeStamp.nsec/1000;
+			t.convertUTC.enable := FALSE;
+			t.ReadData.errTime.millisec := UDINT_TO_UINT(t.ReadItem.TimeStamp.nsec/1000);
 		END_IF
 
 		IF t.ReadItem.AddDataFormat = arEVENTLOG_ADDFORMAT_TEXT THEN
 			t.ReadAddData.Execute := 1;
-			t.ReadAddData.ident := LoggerIdent;
+			t.ReadAddData.Ident := LoggerIdent;
 			t.ReadAddData.RecordID := recordId;
 			t.ReadAddData.AddData := ADR(t.ASCIIData);
 			t.ReadAddData.BytesToRead := SIZEOF(t.ASCIIData);
@@ -344,13 +344,13 @@ FUNCTION LogViewerGetAlarmString
 		LogViewerCreateString(t.ReadData,t.ASCIIData,OutputString);
 		LogViewerGetAlarmString:=0;
 		
-	ELSIF t.ReadItem.status = ERR_FUB_BUSY THEN
+	ELSIF t.ReadItem.StatusID = ERR_FUB_BUSY THEN
 
 		LogViewerGetAlarmString:=ERR_FUB_BUSY;
 
 	ELSE 
 					
-		LogViewerGetAlarmString:=t.ReadItem.status;
+		LogViewerGetAlarmString:=t.ReadItem.StatusID;
 		
 	END_IF
 	

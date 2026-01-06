@@ -43,5 +43,6 @@
     <Dependency ObjectName="LogThat" />
     <Dependency ObjectName="AsBrStr" />
     <Dependency ObjectName="StringExt" FromVersion="0.4.0" />
+    <Dependency ObjectName="astime" />
   </Dependencies>
 </Library>

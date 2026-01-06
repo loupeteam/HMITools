@@ -68,7 +68,7 @@ TYPE
 		LoggerName : STRING[80];
 		Ident : UDINT;
 	END_STRUCT;
-	asarlogREAD : 	STRUCT  (*Header data for log entry*)
+	ArEventLogREAD: 	STRUCT  (*Header data for log entry*)
 		lenAscii : UDINT; (*Length of the ASCII log data*)
 		errornr : UDINT; (*Error number of the entry*)
 		errTime : DTStructure;
@@ -76,7 +76,7 @@ TYPE
 	LogView_GetAlarm : 	STRUCT 
 		ReadItem : ArEventLogRead; (*ArEventLog: ArEventLogRead FUB*)
 		ReadAddData: ArEventLogReadAddData; (*For reading the message text*)
-		ReadData : asarlogREAD;
+		ReadData : ArEventLogREAD;
 		convertUTC : UtcDT_TO_LocalDTStructure;
 		BinaryData : ARRAY[0..255]OF USINT;
 		ASCIIData : ARRAY[0..255]OF USINT;
