@@ -42,15 +42,15 @@ FUNCTION LogView_cyclic
 		LogView.Internal.LoggerName:=	LogView.IN.PAR.LoggerName;				
 		//Get the names of the systems logs.
 		IF FIND(LogView.IN.PAR.LoggerName, 'System') <> 0 THEN
-			LogView.Internal.GetInfo.pName:=arlogBASE_SYSTEM_LOG_IDENT ;
+			LogView.Internal.GetIdent.Name:= '$$arlogsys'; // Double $ since it is the ST escape character
 		ELSIF FIND(LogView.IN.PAR.LoggerName, 'User') <> 0 THEN
-			LogView.Internal.GetInfo.pName:=arlogBASE_USER_LOG_IDENT ;	
+			LogView.Internal.GetIdent.Name:= '$$arlogusr';	
 		ELSIF FIND(LogView.IN.PAR.LoggerName, 'FieldBus') <> 0 THEN
-			LogView.Internal.GetInfo.pName:=arlogBASE_FIELDBUS_LOG_IDENT ;		
+			LogView.Internal.GetIdent.Name:= '$$fieldbus';		
 		ELSIF FIND(LogView.IN.PAR.LoggerName, 'Safety') <> 0 THEN
-			LogView.Internal.GetInfo.pName:=arlogBASE_SAFETY_LOG_IDENT ;		
+			LogView.Internal.GetIdent.Name:= '$$safety';		
 		ELSE
-			LogView.Internal.GetInfo.pName:=ADR(LogView.IN.PAR.LoggerName);		
+			LogView.Internal.GetIdent.Name:=LogView.IN.PAR.LoggerName;
 		END_IF
 		
 	END_IF
@@ -59,25 +59,20 @@ FUNCTION LogView_cyclic
 	//Ensure that we always know what the top alarm is
 	///////////////////////////////////////////////////////////////
 	
-	LogView.Internal.GetInfo.enable:=1;
-	LogView.Internal.GetInfo();
-
-	IF LogView.Internal.GetInfo.status = ERR_OK THEN
+	// LogView.Internal.GetInfo.enable:=1; //TODO: figure out Execute bit (it is rising edge only)
+	LogView.Internal.GetIdent();
+	IF LogView.Internal.GetIdent.Done THEN
 		LogView.OUT.STAT.Error:=0;
 		LogView.OUT.STAT.ErrorID:=0;
 		LogView.OUT.STAT.ErrorString:='';
 		//If this is a new ident, lets clear out the old data
-		IF LogView.Internal.Ident <>  LogView.Internal.GetInfo.ident THEN		
-			LogView.Internal.Ident:= LogView.Internal.GetInfo.ident;
+		IF LogView.Internal.Ident <>  LogView.Internal.GetIdent.Ident THEN		
+			LogView.Internal.Ident:= LogView.Internal.GetIdent.Ident;
 			BufferClear(ADR(LogView.Internal.Buffer));			
 		END_IF
-	ELSIF LogView.Internal.GetInfo.status = ERR_FUB_BUSY THEN
-		IF NOT LogView.OUT.STAT.Error THEN
-			LogView.OUT.STAT.ErrorID:=LogView.Internal.GetInfo.status;
-		END_IF		
 	ELSE  (*Go to Error Step*)
 		LogView.OUT.STAT.Error:=1;
-		LogView.OUT.STAT.ErrorID:=LogView.Internal.GetInfo.status;
+		LogView.OUT.STAT.ErrorID:=LogView.Internal.GetIdent.StatusID;
 		LogView.OUT.STAT.ErrorString:='Error getting log info';	
 		BufferClear(ADR(LogView.Internal.Buffer));		
 		RETURN;		
@@ -89,6 +84,22 @@ FUNCTION LogView_cyclic
 		LogView.Internal.OffsetIndex:=0;
 	END_IF
 	
+	// Get RecordID of latest alarm
+	LogView.Internal.GetRecordID.Ident := LogView.Internal.Ident;
+	LogView.Internal.GetRecordID();
+	IF LogView.Internal.GetRecordID.Error THEN
+		LogView.OUT.STAT.Error:=1;
+		LogView.OUT.STAT.ErrorID:=LogView.Internal.GetRecordID.StatusID;
+		LogView.OUT.STAT.ErrorString:='Error getting record ID';	
+		BufferClear(ADR(LogView.Internal.Buffer));		
+		RETURN;		
+	END_IF
+	
+	IF LogView.IN.CMD.GoToTop THEN
+		LogView.IN.CMD.GoToTop:=0;
+		LogView.IN.PAR.Offset:=0;
+		LogView.Internal.OffsetIndex:=0;
+	END_IF
 	///////////////////////////////////////////////////////////////
 	//Buffer control, tells the ring buffer which way to add values
 	///////////////////////////////////////////////////////////////	
@@ -100,7 +111,7 @@ FUNCTION LogView_cyclic
 		//If we don't have a top, use the first alarm
 		IF BufferGetItemAdr(ADR(LogView.Internal.Buffer),0,0) = 0 THEN
 				
-			LogView.Internal.OffsetIndex:=LogView.Internal.GetInfo.actualIndex;
+			LogView.Internal.OffsetIndex:=LogView.Internal.GetRecordID.RecordID;
 	
 			//If we do have a top, use the top
 		ELSE
@@ -114,18 +125,18 @@ FUNCTION LogView_cyclic
 	
 	//If there is an offset, the max is the offset before the offset was set
 	//+- the current offset
-	IF LogView.IN.PAR.Offset <> 0 OR ((LogView.Internal.OffsetIndex < LogView.Internal.GetInfo.actualIndex - 1) AND (LogView.Internal.OffsetIndex <> 0)) THEN
+	IF LogView.IN.PAR.Offset <> 0 OR ((LogView.Internal.OffsetIndex < LogView.Internal.GetRecordID.RecordID - 1) AND (LogView.Internal.OffsetIndex <> 0)) THEN
 
 		//If the top value is less than or greater than where is should be in the offset
 		//fill the top or bottom to allow it to get there
 		
 		MaxTopIndex:= LogView.Internal.OffsetIndex-LogView.IN.PAR.Offset;
 		
-		IF MaxTopIndex >= LogView.Internal.GetInfo.actualIndex THEN
+		IF MaxTopIndex >= LogView.Internal.GetRecordID.RecordID THEN
 	
-			MaxTopIndex:=LogView.Internal.GetInfo.actualIndex;			
+			MaxTopIndex:=LogView.Internal.GetRecordID.RecordID;			
 			LogView.IN.PAR.Offset:=0;
-			LogView.Internal.OffsetIndex:=LogView.Internal.GetInfo.actualIndex;			
+			LogView.Internal.OffsetIndex:=LogView.Internal.GetRecordID.RecordID;			
 	
 		END_IF
 
@@ -136,7 +147,7 @@ FUNCTION LogView_cyclic
 	
 		//Get top alarm in logger
 			
-		MaxTopIndex:=LogView.Internal.GetInfo.actualIndex;
+		MaxTopIndex:=LogView.Internal.GetRecordID.RecordID;
 				
 	END_IF		
 
@@ -165,7 +176,7 @@ FUNCTION LogView_cyclic
 		
 		iNewEntry.Index:= MaxTopIndex;
 		
-		IF LogViewerGetAlarmString(LogView.Internal.GetTopAlarm,iNewEntry.Index,LogView.Internal.GetInfo.ident,iNewEntry.String) = ERR_OK THEN
+		IF LogViewerGetAlarmString(LogView.Internal.GetTopAlarm,iNewEntry.Index,LogView.Internal.GetIdent.Ident,iNewEntry.String) = ERR_OK THEN
 
 			BufferAddToTop(ADR(LogView.Internal.Buffer),ADR(iNewEntry));			
 
@@ -179,7 +190,7 @@ FUNCTION LogView_cyclic
 		
 		IF iNewEntry.Index <= MaxTopIndex THEN
 			
-			IF LogViewerGetAlarmString(LogView.Internal.GetTopAlarm, iNewEntry.Index,LogView.Internal.GetInfo.ident,iNewEntry.String) = ERR_OK THEN
+			IF LogViewerGetAlarmString(LogView.Internal.GetTopAlarm, iNewEntry.Index,LogView.Internal.GetIdent.Ident,iNewEntry.String) = ERR_OK THEN
 
 				BufferAddToTop(ADR(LogView.Internal.Buffer),ADR(iNewEntry));			
 
@@ -209,7 +220,7 @@ FUNCTION LogView_cyclic
 		//Get the index lower than the last entry in the list
 		iNewEntry.Index:= pEntry.Index-1;
 					
-		IF LogViewerGetAlarmString(LogView.Internal.GetBottomAlarm, iNewEntry.Index,LogView.Internal.GetInfo.ident,iNewEntry.String) = ERR_OK THEN
+		IF LogViewerGetAlarmString(LogView.Internal.GetBottomAlarm, iNewEntry.Index,LogView.Internal.GetIdent.Ident,iNewEntry.String) = ERR_OK THEN
 
 			BufferAddToBottom(ADR(LogView.Internal.Buffer),ADR(iNewEntry));			
 
@@ -224,11 +235,12 @@ END_FUNCTION
 
 FUNCTION LogViewerCreateString
 	
+	brsmemset(ADR(emptyDTStructure), 0, SIZEOF(emptyDTStructure));
 	LogViewerCreateString:=0;
 	
 	iString:='';
-
-	IF brsmemcmp(ReadData.errTime, 0, SIZEOF(ReadData.errTime)) <> THEN
+	
+	IF brsmemcmp(ADR(ReadData.errTime), ADR(emptyDTStructure), SIZEOF(ReadData.errTime)) <> 0 THEN
 		//Year
 		IF ReadData.errTime.year<10 THEN
 			brsstrcat(ADR(iString),ADR('0'));				
@@ -307,7 +319,7 @@ END_FUNCTION
 FUNCTION LogViewerGetAlarmString 
 
 	t.ReadItem.Execute := 1;
-	t.ReadItem.ident := LoggerIdent;  (*Ident of AR logger user module from AsARLogGetInfo*)
+	t.ReadItem.Ident := LoggerIdent;  (*Ident of AR logger user module from AsARLogGetIdent*)
 	t.ReadItem.RecordID := recordId;
 	t.ReadItem;  (* Call the Functionblock*)
 

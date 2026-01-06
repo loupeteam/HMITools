@@ -56,11 +56,12 @@ TYPE
 		Done : BOOL;
 		Busy : BOOL;
 		Error : BOOL;
-		ErrorID : UINT;
+		ErrorID : DINT;
 		ErrorString : STRING[80];
 	END_STRUCT;
 	LogView_Internal_typ : 	STRUCT  (*Logger Variables*)
-		GetInfo : AsArLogGetInfo; (*AsARLog: AsArLogGetInfo FUB*)
+		GetIdent: ArEventLogGetIdent;
+		GetRecordID: ArEventLogGetLatestRecordID;
 		GetTopAlarm : LogView_GetAlarm;
 		GetBottomAlarm : LogView_GetAlarm;
 		Buffer : Buffer_typ;
