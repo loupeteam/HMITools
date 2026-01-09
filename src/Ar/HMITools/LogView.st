@@ -59,7 +59,7 @@ FUNCTION LogView_cyclic
 	//Ensure that we always know what the top alarm is
 	///////////////////////////////////////////////////////////////
 	
-	// LogView.Internal.GetInfo.enable:=1; //TODO: figure out Execute bit (it is rising edge only)
+	LogView.Internal.GetIdent.Execute := TRUE; 
 	LogView.Internal.GetIdent();
 	IF LogView.Internal.GetIdent.Done THEN
 		LogView.OUT.STAT.Error:=0;
@@ -86,6 +86,7 @@ FUNCTION LogView_cyclic
 	
 	// Get RecordID of latest alarm
 	LogView.Internal.GetRecordID.Ident := LogView.Internal.Ident;
+	LogView.Internal.GetRecordID.Execute := TRUE; 
 	LogView.Internal.GetRecordID();
 	IF LogView.Internal.GetRecordID.Error THEN
 		LogView.OUT.STAT.Error:=1;
@@ -229,6 +230,14 @@ FUNCTION LogView_cyclic
 	END_IF	
 	
 	LogView.OUT.NumberAlarms:= LogView.Internal.Buffer.NumberValues;
+
+
+	// These only execute on rising edge, so reset execute at end of function
+	LogView.Internal.GetIdent.Execute := FALSE; 
+	LogView.Internal.GetIdent();
+	LogView.Internal.GetRecordID.Execute := FALSE;
+	LogView.Internal.GetRecordID();
+
 	
 END_FUNCTION
 
