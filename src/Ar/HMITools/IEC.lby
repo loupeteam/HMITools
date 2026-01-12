@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="0.11.4" SubType="IEC" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="0.12.0" SubType="IEC" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Exported data types">HMITools.typ</File>
     <File Description="Exported constants">HMITools.var</File>
